@@ -1,26 +1,45 @@
 <html>
-  <head></head>
   <body>
-    <table>
-    <%length = size-1%>
-    <%while length >= 0%>\
-      <%length = length-1%>
-    <% end %>
-  <tr>
+  <table>
+  <%#This part prints the number or T/fs %>
+  <%s = size - 1%>
+  <%while s >= 0%>
+    <th><%=s%></th>
+    <%s = s - 1%>
+  <% end %>
+  <%#This part prints the other headers of the table%>
     <th id="and" scope="col">AND</th>
     <th id="or" scope="col">OR</th>
     <th id="nand" scope="col">NAND</th>
     <th id="nor" scope="col">NOR</th>
     <th id="xor" scope="col">XOR</th>
     <th id="single" scope="col">SINGLE</th>
-  </tr>
 
-      
-      
-      
-      
-      
-</table>
+  <%# Get truth table value list %>
+  <%table = const_table(ts, fs, size)%>
+  <%truth_table = const_table(true, false, size)%>
+
+  <%rows = 0%>
+  <%while rows < (2**size)%>
+    <tr>
+    <% columns = 0%>
+      <%while columns < size %>
+        <td><%=table[rows][columns] %></td>
+        <%columns += 1%>
+      <%end%>
+      <%# Complete computational logic in backend %>
+      <%total_ts = calculate_total_ts(truth_table, rows, ts, size)%>
+      <%total_fs = calculate_total_fs(truth_table, rows, fs, size)%>
+      <td><%=AND(ts, fs, total_ts, total_fs)%></td>
+      <td><%=OR(ts, fs, total_ts, total_fs).to_s%></td>
+      <td><%=NAND(ts, fs, total_ts, total_fs).to_s%></td>
+      <td><%=NOR(ts, fs, total_ts, total_fs).to_s%></td>
+      <td><%=XOR(ts, fs, total_ts, total_fs).to_s%></td>
+      <td><%=SINGLE(ts, fs, total_ts, total_fs).to_s%></td>
+    </tr>
+    <% rows += 1%>
+  <%end%>
+  </table>
 <a href='/'>Main Page</a>
-</body>
+ </body>
 </html>
