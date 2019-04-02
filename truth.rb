@@ -17,7 +17,7 @@ post '/truth_table' do
 # set to default if input is nothing
   ts = "T" if ts == ""
   fs = "F" if fs == ""
-  size = "2" if size == ""
+  size = "3" if size == ""
   size = size.to_i
 
   puts params
